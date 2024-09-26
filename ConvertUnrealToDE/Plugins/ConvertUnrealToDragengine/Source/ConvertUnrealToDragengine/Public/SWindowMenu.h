@@ -22,7 +22,11 @@ public:
 	FReply OnTestButtonClicked();
 	void OnTestCheckboxStateChanged(ECheckBoxState NewState);
 	ECheckBoxState IsTestBoxChecked() const;
+	FText GetPathDEProject() const;
+	void SetPathDEProject(const FText& Text, ETextCommit::Type CommitType);
+	FReply OnPathDEProjectSelect();
 	 
 protected:
 	bool bIsTestBoxChecked;
+	FText pPathDEProject;
 };

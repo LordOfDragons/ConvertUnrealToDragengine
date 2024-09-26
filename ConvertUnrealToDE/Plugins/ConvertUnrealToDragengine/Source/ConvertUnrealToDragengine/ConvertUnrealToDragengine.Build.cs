@@ -1,5 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+using System.IO;
 using UnrealBuildTool;
 
 public class ConvertUnrealToDragengine : ModuleRules
@@ -17,7 +18,9 @@ public class ConvertUnrealToDragengine : ModuleRules
 		
 		PrivateIncludePaths.AddRange(
 			new string[] {
-				// ... add other private include paths required here ...
+				//"..\\..\\..\\..\\..\\dragengine\\vs\\x64\\ReleaseDebug\\include"
+				/*Path.Combine(ModuleDirectory,
+					"..\\..\\..\\..\\..\\..\\dragengine\\vs\\x64\\ReleaseDebug\\include")*/
 			}
 			);
 			
@@ -43,15 +46,14 @@ public class ConvertUnrealToDragengine : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore"
-				// ... add private dependencies that you statically link with here ...	
+				// ... add private dependencies that you statically link with here ...
+				//,"Dragengine"
 			}
 			);
-		
 		
 		DynamicallyLoadedModuleNames.AddRange(
 			new string[]
 			{
-				// ... add any modules that your module loads dynamically here ...
 			}
 			);
 	}
