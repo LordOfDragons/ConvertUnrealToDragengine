@@ -9,6 +9,12 @@ public class ConvertUnrealToDragengine : ModuleRules
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 		
+		PublicAdditionalLibraries.AddRange(
+			new string[] {
+				Path.Combine(ModuleDirectory, "ThirdParty", "Dragengine", "lib", "dragengine.lib")
+			}
+			);
+
 		PublicIncludePaths.AddRange(
 			new string[] {
 				// ... add public include paths required here ...
@@ -18,9 +24,7 @@ public class ConvertUnrealToDragengine : ModuleRules
 		
 		PrivateIncludePaths.AddRange(
 			new string[] {
-				//"..\\..\\..\\..\\..\\dragengine\\vs\\x64\\ReleaseDebug\\include"
-				/*Path.Combine(ModuleDirectory,
-					"..\\..\\..\\..\\..\\..\\dragengine\\vs\\x64\\ReleaseDebug\\include")*/
+				Path.Combine(ModuleDirectory, "ThirdParty", "Dragengine", "include")
 			}
 			);
 			
@@ -45,12 +49,17 @@ public class ConvertUnrealToDragengine : ModuleRules
 				"CoreUObject",
 				"Engine",
 				"Slate",
-				"SlateCore"
+				"SlateCore",
 				// ... add private dependencies that you statically link with here ...
-				//,"Dragengine"
 			}
 			);
 		
+		PublicDelayLoadDLLs.AddRange(
+			new string[]
+			{
+				"dragengine.dll"
+			});
+
 		DynamicallyLoadedModuleNames.AddRange(
 			new string[]
 			{

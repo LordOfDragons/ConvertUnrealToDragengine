@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Widgets/SCompoundWidget.h"
+#include "DragengineLibrary.h"
 
 /**
  * 
@@ -27,6 +28,8 @@ public:
 	FReply OnPathDEProjectSelect();
 	 
 protected:
+	DragengineLibrary pDragengineLibrary;
+
 	bool bIsTestBoxChecked;
 	FText pPathDEProject;
 };
