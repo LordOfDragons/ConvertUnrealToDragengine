@@ -9,19 +9,6 @@
  */
 class DragengineLibrary
 {
-private:
-	FString pPathDragengine;
-	FString pPathLibDragengine;
-	FString pPathLibDELauncher;
-
-	FString pProblem;
-
-	HMODULE pModuleDragengine;
-	HMODULE pModuleDELauncher;
-
-	bool pReady;
-
-
 public:
 	DragengineLibrary();
 	~DragengineLibrary();
@@ -37,4 +24,18 @@ private:
 	bool pLoadLibraryDragengine();
 	bool pLoadLibraryDELauncher();
 	static FString pGetLastError();
+
+
+
+private:
+	FString pPathDragengine;
+	FString pPathLibDragengine;
+	FString pPathLibDELauncher;
+
+	FString pProblem;
+
+	HMODULE pModuleDragengine;
+	HMODULE pModuleDELauncher;
+
+	bool pReady;
 };

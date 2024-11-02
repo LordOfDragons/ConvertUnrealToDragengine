@@ -4,6 +4,7 @@
 #include "SlateOptMacros.h"
 #include "IDesktopPlatform.h"
 #include "DesktopPlatformModule.h"
+#include "AssetRegistry/AssetRegistryModule.h"
 
 #include <dragengine/app/deOSWindows.h>
 #include <Winreg.h>
@@ -26,6 +27,26 @@ void SWindowMenu::Construct(const FArguments& InArgs)
 	ChildSlot
 	[
 	    SNew(SVerticalBox)
+	    +SVerticalBox::Slot()
+	    .AutoHeight()
+	    [
+			SNew(SHorizontalBox)
+	        +SHorizontalBox::Slot()
+	        .VAlign(VAlign_Top)
+			.AutoWidth()
+			.Padding(0, 0, 20, 0)
+	        [
+	            SNew(STextBlock)
+	            .Text(FText::FromString("Drag[en]gine:"))
+	        ]
+	        +SHorizontalBox::Slot()
+	        .VAlign(VAlign_Top)
+	        [
+	            SAssignNew(pLabDragengineInfo, STextBlock)
+					.Text(FText::FromString("-"))
+					.IsEnabled(false)
+	        ]
+	    ]
 	    +SVerticalBox::Slot()
 	    .AutoHeight()
 	    [
@@ -93,6 +114,8 @@ void SWindowMenu::Construct(const FArguments& InArgs)
 	        ]
 	    ]
 	];
+
+	pUpdateInfoDragengine();
 }
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
@@ -147,6 +170,25 @@ FReply SWindowMenu::OnPathDEProjectSelect()
 	return FReply::Handled();
 }
 
+void SWindowMenu::pUpdateInfoDragengine()
+{
+	FString info;
+	FStringFormatOrderedArguments args;
+
+	if (pDragengineLibrary.IsReady())
+	{
+		args.Add(pDragengineLibrary.GetPathDragengine());
+		info = FString::Format(TEXT("Ready: {0}"), args);
+	}
+	else
+	{
+		args.Add(pDragengineLibrary.GetProblem());
+		info = FString::Format(TEXT("Not Ready: {0}"), args);
+	}
+
+	pLabDragengineInfo->SetText(FText::FromString(info));
+}
+
 FReply SWindowMenu::OnTestButtonClicked()
 {
 	if (pDragengineLibrary.IsNotReady())
@@ -161,5 +203,32 @@ FReply SWindowMenu::OnTestButtonClicked()
 	UE_LOG(LogTemp, Warning, TEXT("Hello, world! The checkbox is %s."),
 		(bIsTestBoxChecked ? TEXT("checked") : TEXT("unchecked")));
 	UE_LOG(LogTemp, Warning, TEXT("TEST: %s."), ws);
+
+	pProjectAssets.ScanAssets();
+
+	UE_LOG(LogTemp, Warning, TEXT("Assets: %d"), pProjectAssets.GetAssetCount());
+	for(ProjectAssets::IterAssets i=pProjectAssets.CreateAssetsIter(); i; ++i)
+	{
+		const ProjectAsset &asset = *i.Value();
+		UE_LOG(LogTemp, Warning, TEXT("- %s [%s]"),
+			*asset.GetObjectPath(), *asset.GetAssetPath().ToString());
+
+		/*
+		if(asset.GetAssetPath().ToString() == TEXT("/Script/Engine.StaticMesh"))
+		{
+			UStaticMesh * const smesh = LoadObject<UStaticMesh>(nullptr, *asset.GetObjectPath());
+			if(smesh)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("  - Static mesh loaded: %d"),
+					smesh->GetNumTriangles(0));
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("  - Failed loading static mesh"));
+			}
+		}
+		*/
+	}
+
 	return FReply::Handled();
 }

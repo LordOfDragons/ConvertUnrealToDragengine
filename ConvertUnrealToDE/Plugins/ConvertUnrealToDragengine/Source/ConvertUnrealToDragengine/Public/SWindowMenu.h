@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Widgets/SCompoundWidget.h"
 #include "DragengineLibrary.h"
+#include "ProjectAssets.h"
 
 /**
  * 
@@ -28,6 +29,11 @@ public:
 	FReply OnPathDEProjectSelect();
 	 
 protected:
+	void pUpdateInfoDragengine();
+
+	TSharedPtr<STextBlock> pLabDragengineInfo;
+
+	ProjectAssets pProjectAssets;
 	DragengineLibrary pDragengineLibrary;
 
 	bool bIsTestBoxChecked;
